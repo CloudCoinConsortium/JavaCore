@@ -57,18 +57,23 @@ class FileUtils
     }
     
     public boolean writeStackToReceivedFolder(String fileName, String json){
-         boolean goodSave = false;
-         File file = new File( receivedFolder + fileName +".stack" );
-         if(file.exists() && !file.isDirectory()) {
-            //System.out.println("A coin with that SN already exists in the folder.");
-           return goodSave;
+        try{
+            boolean goodSave = false;
+             File file = new File( receivedFolder + fileName +".stack" );
+             if(file.exists() && !file.isDirectory()) {
+                //System.out.println("A coin with that SN already exists in the folder.");
+               return goodSave;
+            }
+            FileOutputStream is = new FileOutputStream(file);
+                OutputStreamWriter osw = new OutputStreamWriter(is);    
+                Writer w = new BufferedWriter(osw);
+                w.write(json);
+                w.close();
+            return true;
+        }catch(IOException e){
+         return false; 
+        
         }
-        FileOutputStream is = new FileOutputStream(file);
-            OutputStreamWriter osw = new OutputStreamWriter(is);    
-            Writer w = new BufferedWriter(osw);
-            w.write(json);
-            w.close();
-        return true;
     }//end write to received folder
     
       public void moveToImportedFolder(String fileName){
@@ -100,4 +105,20 @@ class FileUtils
         return jsonData;
     }//end json test
 
+    
+        public String[] selectFileNamesInFolder(String directoryPath) {
+        File dir = new File(directoryPath);
+        String candidateFileExt = "";
+        Collection<String> files  =new ArrayList<String>();
+        if(dir.isDirectory()){
+            File[] listFiles = dir.listFiles();
+
+            for(File file : listFiles){
+                if(file.isFile()) {//Only add files with the matching file extension
+                    files.add(file.getName());
+                }
+            }
+        }
+        return files.toArray(new String[]{});
+    }//End select all file names in a folder
 }

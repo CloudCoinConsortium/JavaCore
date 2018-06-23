@@ -29,7 +29,7 @@ class Unpacker {
     }
 
     public boolean importAll() {
-        String[] fileNames = selectFileNamesInFolder( fileUtils.importFolder );
+        String[] fileNames = fileUtils.selectFileNamesInFolder( fileUtils.importFolder );
         String extension ="";
         //System.out.println("Importing the following files (" + fnames.length + "):");
         for (int i = 0; i < fileNames.length; i++) {
@@ -99,19 +99,5 @@ class Unpacker {
         }
     }
     
-    public String[] selectFileNamesInFolder(String directoryPath) {
-        File dir = new File(directoryPath);
-        String candidateFileExt = "";
-        Collection<String> files  =new ArrayList<String>();
-        if(dir.isDirectory()){
-            File[] listFiles = dir.listFiles();
 
-            for(File file : listFiles){
-                if(file.isFile()) {//Only add files with the matching file extension
-                    files.add(file.getName());
-                }
-            }
-        }
-        return files.toArray(new String[]{});
-    }//End select all file names in a folder
 }
