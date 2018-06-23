@@ -89,7 +89,7 @@ class Unpacker {
                 String ed = childJSONObject.getString("ed");
 
                 tempCoin = new CloudCoin(nn, sn, ans);
-                fileUtils.writeToReceivedFolder(fileUtils.suspectFolder, tempCoin);
+                fileUtils.writeStackToReceivedFolder(tempCoin.fileName, tempCoin.json);
                 fileUtils.moveToImportedFolder(fileName);
             }
             return true;

@@ -56,13 +56,18 @@ class FileUtils
         new File(source).renameTo(new File(target));
     }
     
-    public boolean writeStackToReceivedFolder(String fileName, CloudCoin cc){
+    public boolean writeStackToReceivedFolder(String fileName, String json){
          boolean goodSave = false;
-         File f = new File( receivedFolder + cc.fileName +".stack" );
-         if(f.exists() && !f.isDirectory()) {
+         File file = new File( receivedFolder + fileName +".stack" );
+         if(file.exists() && !file.isDirectory()) {
             //System.out.println("A coin with that SN already exists in the folder.");
            return goodSave;
         }
+        FileOutputStream is = new FileOutputStream(file);
+            OutputStreamWriter osw = new OutputStreamWriter(is);    
+            Writer w = new BufferedWriter(osw);
+            w.write(json);
+            w.close();
         return true;
     }//end write to received folder
     
@@ -71,16 +76,8 @@ class FileUtils
         String target = trashFolder + fileName;
         new File(source).renameTo(new File(target));
     }
-    
-     
-      public void moveToReceivedFolder(String fileName){
-        String source = importFolder + fileName;
-        String target = receivedFolder + fileName;
-        new File(source).renameTo(new File(target));
-    }
-    
-
    
+    
     private String loadJSON( String jsonfile) throws FileNotFoundException {
         String jsonData = "";
         BufferedReader br = null;
